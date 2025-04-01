@@ -1,4 +1,4 @@
-# E-Ticaret Sipariş Yönetim API'si
+# E-Ticaret Sipariş API'si
 
 Bu proje, e-ticaret platformları için temel bir sipariş yönetim sistemi sağlayan bir ASP.NET Core Web API'dir.
 
@@ -146,11 +146,3 @@ dotnet ef database update
 ```bash
 dotnet test
 ```
-
-## Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için `LICENSE` dosyasına bakınız.
-
-## İletişim
-
-[E-posta adresiniz veya iletişim bilgileriniz] 
