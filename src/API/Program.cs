@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using OrderManagementAPI.Core.Interfaces;
 using OrderManagementAPI.Infrastructure.Data;
 using OrderManagementAPI.Infrastructure.Services;
@@ -13,8 +14,23 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add HttpClientFactory
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("OrdersAPI", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ExternalServices:BaseUrl"] ?? "https://api.example.com/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+// Add memory cache for token storage
+builder.Services.AddMemoryCache();
+
 // Add application services
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Add background service
+builder.Services.AddHostedService<OrderSyncService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
